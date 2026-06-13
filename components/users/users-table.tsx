@@ -122,14 +122,27 @@ function sortValue(u: UserInfo, key: SortKey): string | number {
 function QuotaCell({ user }: { user: UserInfo }) {
   if (!user.data_quota_bytes) return <span className="text-muted-foreground">—</span>;
   const pct = Math.min(100, (user.total_octets / user.data_quota_bytes) * 100);
+  const barColor = pct > 90 ? "bg-red-500" : pct > 70 ? "bg-amber-500" : "bg-primary";
   return (
     <div className="flex w-28 flex-col gap-1">
-      <Progress value={pct} />
+      <Progress value={pct} indicatorClassName={barColor} />
       <div className="text-muted-foreground flex justify-between text-[11px] tabular-nums">
         <span>{fmtBytes(user.total_octets)}</span>
         <span>{Math.round(pct)}%</span>
       </div>
     </div>
+  );
+}
+
+function UserAvatar({ username }: { username: string }) {
+  const initials = username
+    .replace(/[^a-z0-9]/gi, "")
+    .slice(0, 2)
+    .toUpperCase();
+  return (
+    <span className="bg-muted flex size-6 shrink-0 items-center justify-center rounded-md border text-[10.5px] font-semibold">
+      {initials}
+    </span>
   );
 }
 
@@ -324,6 +337,7 @@ export function UsersTable({
                   >
                     <TableCell>
                       <div className="flex items-center gap-2">
+                        <UserAvatar username={u.username} />
                         <span
                           className={cn("font-mono text-sm", !u.enabled && "text-muted-foreground")}
                         >

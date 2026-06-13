@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { StatusDot, type HealthState } from "@/components/shell/status-dot";
+import { cn } from "@/lib/utils";
 import { getCurrentInstance } from "@/lib/instance";
 import { telemt, type TelemtResult } from "@/lib/telemt/client";
 import { fmtNum, fmtUptime, relTime } from "@/lib/format";
@@ -51,6 +52,20 @@ interface Gate {
   label: string;
   desc: string;
   state: HealthState;
+}
+
+const GATE_TINT: Record<HealthState, string> = {
+  ok: "border-emerald-500/20 bg-emerald-500/[0.04]",
+  degraded: "border-amber-500/20 bg-amber-500/[0.04]",
+  down: "border-red-500/20 bg-red-500/[0.04]",
+  unknown: "border-border",
+};
+
+function eventSeverity(eventType: string): HealthState {
+  const t = eventType.toLowerCase();
+  if (/(error|fail|bad|denied|reject)/.test(t)) return "down";
+  if (/(warn|degrad|expire|throttle|reroute|retry)/.test(t)) return "degraded";
+  return "unknown";
 }
 
 function buildGates(gates: RuntimeGatesData): Gate[] {
@@ -160,7 +175,13 @@ export default async function DashboardPage() {
             {gatesData ? (
               <div className="grid gap-2 sm:grid-cols-2">
                 {gates.map((g) => (
-                  <div key={g.label} className="flex items-start gap-2 rounded-md border p-2.5">
+                  <div
+                    key={g.label}
+                    className={cn(
+                      "flex items-start gap-2 rounded-md border p-2.5",
+                      GATE_TINT[g.state],
+                    )}
+                  >
                     <StatusDot state={g.state} pulse={g.state === "ok"} />
                     <div className="flex flex-col gap-0.5">
                       <div className="text-sm font-medium">{g.label}</div>
@@ -203,6 +224,7 @@ export default async function DashboardPage() {
               <div className="flex flex-col divide-y">
                 {events.data.events.map((e) => (
                   <div key={e.seq} className="flex items-center gap-3 py-2 text-sm">
+                    <StatusDot state={eventSeverity(e.event_type)} />
                     <span className="text-muted-foreground font-mono text-xs">{e.event_type}</span>
                     <span className="text-muted-foreground flex-1 truncate text-xs">
                       {e.context}

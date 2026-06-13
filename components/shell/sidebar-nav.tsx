@@ -22,7 +22,7 @@ export function SidebarNav({ instances, current, health, onNavigate }: SidebarNa
   return (
     <>
       <div className="flex items-center gap-2 px-4 py-4">
-        <span className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-md">
+        <span className="flex size-7 items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-sm">
           <Zap className="size-4" />
         </span>
         <span className="text-base font-semibold">
@@ -48,9 +48,9 @@ export function SidebarNav({ instances, current, health, onNavigate }: SidebarNa
                     href={item.href}
                     onClick={onNavigate}
                     className={cn(
-                      "flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors",
+                      "relative flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors",
                       active
-                        ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                        ? "bg-sidebar-accent text-sidebar-accent-foreground before:bg-primary before:absolute before:inset-y-1 before:left-0 before:w-0.5 before:rounded-full"
                         : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     )}
                   >
