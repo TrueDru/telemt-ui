@@ -12,18 +12,18 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
       `TELEMT_<ID>_BASE_URL`, `TELEMT_<ID>_AUTH_HEADER`
 
 ## 1. API layer
-- [ ] zod schemas for response contracts in API.md (start with: Health,
+- [x] zod schemas for response contracts in API.md (start with: Health,
       SystemInfo, RuntimeGates, Summary, UserInfo, ConfigData,
       PatchConfigResponse)
-- [ ] zod schemas for request contracts (CreateUserRequest,
+- [x] zod schemas for request contracts (CreateUserRequest,
       PatchUserRequest, PatchConfigRequest, RotateSecretRequest) — enforce
       32-hex secrets, username regex, etc.
-- [ ] typed client (`lib/telemt/client.ts`): wraps fetch, injects
+- [x] typed client (`lib/telemt/client.ts`): wraps fetch, injects
       `Authorization`, handles envelope (`ok`/`error`/`revision`),
       surfaces `request_id` on error
-- [ ] Next route handlers `app/api/telemt/[...path]/route.ts` — proxy +
+- [x] Next route handlers `app/api/telemt/[...path]/route.ts` — proxy +
       multi-instance lookup by `?instance=`
-- [ ] error-code -> UI message map (table from API.md "Common Error Codes")
+- [x] error-code -> UI message map (table from API.md "Common Error Codes")
 
 ## 2. Auth & shell
 - [ ] login page + signed-cookie session gate (shared `APP_PASSWORD`)
