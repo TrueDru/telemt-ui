@@ -77,7 +77,7 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 
 ## 8. Fingerprints
 
-- [ ] JA3/JA4 leaderboard tabs (by-fingerprint/IP/CIDR/user) with
+- [x] JA3/JA4 leaderboard tabs (by-fingerprint/IP/CIDR/user) with
       `limit` query control
 
 ## 9. Polish & ops

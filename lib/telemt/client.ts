@@ -18,6 +18,7 @@ import {
   runtimeUpstreamQualityDataSchema,
 } from "./schemas/runtime";
 import { securityPostureDataSchema, securityWhitelistDataSchema } from "./schemas/security";
+import { runtimeTlsFingerprintsDataSchema } from "./schemas/fingerprints";
 import {
   configDataSchema,
   patchConfigResponseSchema,
@@ -143,6 +144,10 @@ export const telemt = {
     telemtRequest(instanceId, "/v1/security/posture", securityPostureDataSchema),
   securityWhitelist: (instanceId: string) =>
     telemtRequest(instanceId, "/v1/security/whitelist", securityWhitelistDataSchema),
+  runtimeTlsFingerprints: (instanceId: string, limit?: number) =>
+    telemtRequest(instanceId, "/v1/runtime/tls-fingerprints", runtimeTlsFingerprintsDataSchema, {
+      query: { limit },
+    }),
 
   config: {
     get: (instanceId: string) => telemtRequest(instanceId, "/v1/config", configDataSchema),

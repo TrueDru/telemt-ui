@@ -7,6 +7,7 @@ interface RequestOptions {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: unknown;
   ifMatch?: string;
+  query?: Record<string, string | number | undefined>;
 }
 
 /**
@@ -22,6 +23,11 @@ export async function apiRequest<T>(
 ): Promise<TelemtResult<T>> {
   const url = new URL(`/api/telemt${path}`, window.location.origin);
   url.searchParams.set("instance", instanceId);
+  if (opts.query) {
+    for (const [key, value] of Object.entries(opts.query)) {
+      if (value !== undefined) url.searchParams.set(key, String(value));
+    }
+  }
 
   const headers: Record<string, string> = {};
   if (opts.ifMatch) headers["If-Match"] = opts.ifMatch;
