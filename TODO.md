@@ -53,12 +53,12 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 
 ## 5. Config page
 
-- [ ] fetch `GET /v1/config`, store `revision`
-- [ ] section forms: general, timeouts, censorship, upstreams, show_link,
+- [x] fetch `GET /v1/config`, store `revision`
+- [x] section forms: general, timeouts, censorship, upstreams, show_link,
       dc_overrides
-- [ ] dirty-state diff + save bar, `If-Match` on PATCH,
+- [x] dirty-state diff + save bar, `If-Match` on PATCH,
       `409 revision_conflict` -> refetch+retry prompt
-- [ ] `restart_required` banner/notice after save
+- [x] `restart_required` banner/notice after save
 
 ## 6. Runtime/diagnostics page
 

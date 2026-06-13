@@ -6,6 +6,7 @@ import type { TelemtResult } from "./client";
 interface RequestOptions {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: unknown;
+  ifMatch?: string;
 }
 
 /**
@@ -23,6 +24,7 @@ export async function apiRequest<T>(
   url.searchParams.set("instance", instanceId);
 
   const headers: Record<string, string> = {};
+  if (opts.ifMatch) headers["If-Match"] = opts.ifMatch;
   let body: string | undefined;
   if (opts.body !== undefined) {
     headers["Content-Type"] = "application/json";
