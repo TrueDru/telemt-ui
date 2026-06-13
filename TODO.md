@@ -4,11 +4,11 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 `DESIGN_PROMPT.md` for the design pass.
 
 ## 0. Scaffolding
-- [ ] `create-next-app` (TS, App Router, Tailwind, ESLint)
-- [ ] shadcn/ui init + base components (Button, Card, Table, Tabs, Dialog,
+- [x] `create-next-app` (TS, App Router, Tailwind, ESLint)
+- [x] shadcn/ui init + base components (Button, Card, Table, Tabs, Dialog,
       Sheet, Badge, Progress, Toast, Input, Switch)
-- [ ] Prettier + ESLint config, `.editorconfig`
-- [ ] Env schema (`zod`-validated) for `APP_PASSWORD`,
+- [x] Prettier + ESLint config, `.editorconfig`
+- [x] Env schema (`zod`-validated) for `APP_PASSWORD`,
       `TELEMT_<ID>_BASE_URL`, `TELEMT_<ID>_AUTH_HEADER`
 
 ## 1. API layer
