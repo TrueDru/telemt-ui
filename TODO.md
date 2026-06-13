@@ -85,8 +85,8 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 - [x] global toast/error handling wired to error envelope
 - [x] loading/empty/error states for every panel
 - [x] responsive layout pass (mobile sidebar)
-- [ ] unit tests for API client + zod schemas (vitest)
-- [ ] component tests (RTL) for forms (create user, config patch)
+- [x] unit tests for API client + zod schemas (vitest)
+- [x] component tests (RTL) for forms (create user, config patch)
 - [ ] Dockerfile (Next standalone output) + docker-compose alongside telemt
 - [ ] CI: lint + typecheck + test + build
 - [ ] README: setup, env vars, multi-instance config
