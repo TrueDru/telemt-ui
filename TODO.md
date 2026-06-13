@@ -43,13 +43,13 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 
 ## 4. Users page
 
-- [ ] users table (`GET /v1/users`) with sort/search
-- [ ] row actions: enable, disable, reset-quota, rotate-secret, delete
+- [x] users table (`GET /v1/users`) with sort/search
+- [x] row actions: enable, disable, reset-quota, rotate-secret, delete
       (with confirm dialogs; `last_user_forbidden` handling on delete)
-- [ ] create-user dialog (`POST /v1/users`)
-- [ ] user detail drawer: limits edit form (`PATCH /v1/users/{username}`,
+- [x] create-user dialog (`POST /v1/users`)
+- [x] user detail drawer: limits edit form (`PATCH /v1/users/{username}`,
       JSON-merge-patch null-to-clear semantics)
-- [ ] links section: `tg://proxy` buttons + QR codes for classic/secure/tls + `tls_domains`
+- [x] links section: `tg://proxy` buttons + QR codes for classic/secure/tls + `tls_domains`
 
 ## 5. Config page
 
