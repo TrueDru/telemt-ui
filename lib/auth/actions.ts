@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getEnv } from "@/lib/env";
@@ -19,16 +19,26 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
     return { error: "Incorrect password." };
   }
 
+  // Mark the cookie Secure only when we know the client is on HTTPS (via a
+  // TLS-terminating reverse proxy). Gating on NODE_ENV alone breaks plain-HTTP
+  // production deployments: browsers silently drop Secure cookies over HTTP,
+  // which causes an infinite login redirect loop.
+  const secure = (await headers()).get("x-forwarded-proto") === "https";
+
   (await cookies()).set(SESSION_COOKIE, createSessionToken(appPassword), {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure,
     sameSite: "lax",
     maxAge: SESSION_MAX_AGE,
     path: "/",
   });
 
+  // Redirect straight to /dashboard rather than "/": the root page itself
+  // redirects to /dashboard, and a second redirect chained onto a server
+  // action's response trips Next's RSC fetch into an "unexpected response
+  // from server" error on the client.
   const from = String(formData.get("from") ?? "");
-  redirect(from.startsWith("/") ? from : "/");
+  redirect(from.startsWith("/") ? from : "/dashboard");
 }
 
 export async function logout() {
