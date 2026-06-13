@@ -21,7 +21,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="flex min-h-screen">
       <Sidebar instances={instances} current={current} health={health} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar current={current} />
+        <Topbar instances={instances} current={current} health={health} />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>

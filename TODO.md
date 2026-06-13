@@ -82,9 +82,9 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 
 ## 9. Polish & ops
 
-- [ ] global toast/error handling wired to error envelope
-- [ ] loading/empty/error states for every panel
-- [ ] responsive layout pass (mobile sidebar)
+- [x] global toast/error handling wired to error envelope
+- [x] loading/empty/error states for every panel
+- [x] responsive layout pass (mobile sidebar)
 - [ ] unit tests for API client + zod schemas (vitest)
 - [ ] component tests (RTL) for forms (create user, config patch)
 - [ ] Dockerfile (Next standalone output) + docker-compose alongside telemt

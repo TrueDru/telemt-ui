@@ -5,15 +5,24 @@ import { ChevronRight, LogOut, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TelemtInstance } from "@/lib/env";
 import { logout } from "@/lib/auth/actions";
+import { MobileNav } from "./mobile-nav";
 import { ThemeToggle } from "./theme-toggle";
 import { PAGE_TITLES } from "./nav";
+import type { HealthState } from "./status-dot";
 
-export function Topbar({ current }: { current: TelemtInstance }) {
+interface TopbarProps {
+  instances: TelemtInstance[];
+  current: TelemtInstance;
+  health: HealthState;
+}
+
+export function Topbar({ instances, current, health }: TopbarProps) {
   const pathname = usePathname();
   const [section, label] = PAGE_TITLES[pathname] ?? ["", ""];
 
   return (
     <header className="flex h-12 items-center gap-3 border-b px-4">
+      <MobileNav instances={instances} current={current} health={health} />
       <div className="flex items-center gap-1.5 overflow-hidden text-sm">
         <span className="text-muted-foreground truncate font-mono text-xs">{current.label}</span>
         {section && (
