@@ -62,13 +62,13 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 
 ## 6. Runtime/diagnostics page
 
-- [ ] ME pool state tab (generations, hardswap, writer contour/health)
-- [ ] ME quality tab (counters, route drops, per-DC RTT/coverage)
-- [ ] upstream quality tab (policy, counters, per-upstream table)
-- [ ] NAT/STUN tab
-- [ ] ME self-test tab (KDF, time-skew, IP, PID, BND)
-- [ ] DC status table + ME writers table (minimal/all)
-- [ ] shared "feature disabled / source unavailable" empty-state component
+- [x] ME pool state tab (generations, hardswap, writer contour/health)
+- [x] ME quality tab (counters, route drops, per-DC RTT/coverage)
+- [x] upstream quality tab (policy, counters, per-upstream table)
+- [x] NAT/STUN tab
+- [x] ME self-test tab (KDF, time-skew, IP, PID, BND)
+- [x] DC status table + ME writers table (minimal/all)
+- [x] shared "feature disabled / source unavailable" empty-state component
 
 ## 7. Security page
 

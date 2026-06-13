@@ -10,6 +10,14 @@ import {
   systemInfoDataSchema,
 } from "./schemas/system";
 import {
+  minimalAllDataSchema,
+  runtimeMePoolStateDataSchema,
+  runtimeMeQualityDataSchema,
+  runtimeMeSelftestDataSchema,
+  runtimeNatStunDataSchema,
+  runtimeUpstreamQualityDataSchema,
+} from "./schemas/runtime";
+import {
   configDataSchema,
   patchConfigResponseSchema,
   type PatchConfigRequest,
@@ -118,6 +126,18 @@ export const telemt = {
     telemtRequest(instanceId, "/v1/runtime/events/recent", runtimeEdgeEventsDataSchema, {
       query: { limit },
     }),
+  runtimeMePoolState: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/runtime/me_pool_state", runtimeMePoolStateDataSchema),
+  runtimeMeQuality: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/runtime/me_quality", runtimeMeQualityDataSchema),
+  runtimeUpstreamQuality: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/runtime/upstream_quality", runtimeUpstreamQualityDataSchema),
+  runtimeNatStun: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/runtime/nat_stun", runtimeNatStunDataSchema),
+  runtimeMeSelftest: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/runtime/me-selftest", runtimeMeSelftestDataSchema),
+  statsMinimalAll: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/stats/minimal/all", minimalAllDataSchema),
 
   config: {
     get: (instanceId: string) => telemtRequest(instanceId, "/v1/config", configDataSchema),
