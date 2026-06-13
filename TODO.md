@@ -35,10 +35,10 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 
 ## 3. Dashboard page
 
-- [ ] stat cards: uptime, connections_total, configured_users, read_only,
+- [x] stat cards: uptime, connections_total, configured_users, read_only,
       route_mode
-- [ ] gates panel (admission/ME readiness/reroute chips)
-- [ ] recent-events ticker (`/v1/runtime/events/recent`, degrade gracefully
+- [x] gates panel (admission/ME readiness/reroute chips)
+- [x] recent-events ticker (`/v1/runtime/events/recent`, degrade gracefully
       if `runtime_edge_enabled=false`)
 
 ## 4. Users page

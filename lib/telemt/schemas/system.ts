@@ -45,6 +45,28 @@ export const systemInfoDataSchema = z.object({
 });
 export type SystemInfoData = z.infer<typeof systemInfoDataSchema>;
 
+export const apiEventRecordSchema = z.object({
+  seq: z.number(),
+  ts_epoch_secs: z.number(),
+  event_type: z.string(),
+  context: z.string(),
+});
+export type ApiEventRecord = z.infer<typeof apiEventRecordSchema>;
+
+export const runtimeEdgeEventsDataSchema = z.object({
+  enabled: z.boolean(),
+  reason: z.string().nullish(),
+  generated_at_epoch_secs: z.number(),
+  data: z
+    .object({
+      capacity: z.number(),
+      dropped_total: z.number(),
+      events: z.array(apiEventRecordSchema),
+    })
+    .nullable(),
+});
+export type RuntimeEdgeEventsData = z.infer<typeof runtimeEdgeEventsDataSchema>;
+
 export const runtimeGatesDataSchema = z.object({
   accepting_new_connections: z.boolean(),
   conditional_cast_enabled: z.boolean(),

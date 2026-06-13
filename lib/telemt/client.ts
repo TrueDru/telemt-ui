@@ -4,6 +4,7 @@ import { errorEnvelopeSchema, successEnvelope } from "./schemas/common";
 import {
   healthDataSchema,
   healthReadyDataSchema,
+  runtimeEdgeEventsDataSchema,
   runtimeGatesDataSchema,
   summaryDataSchema,
   systemInfoDataSchema,
@@ -113,6 +114,10 @@ export const telemt = {
     telemtRequest(instanceId, "/v1/runtime/gates", runtimeGatesDataSchema),
   summary: (instanceId: string) =>
     telemtRequest(instanceId, "/v1/stats/summary", summaryDataSchema),
+  runtimeEvents: (instanceId: string, limit?: number) =>
+    telemtRequest(instanceId, "/v1/runtime/events/recent", runtimeEdgeEventsDataSchema, {
+      query: { limit },
+    }),
 
   config: {
     get: (instanceId: string) => telemtRequest(instanceId, "/v1/config", configDataSchema),

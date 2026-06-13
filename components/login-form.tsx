@@ -20,7 +20,7 @@ export function LoginForm() {
     <Card className="w-full max-w-sm">
       <CardHeader>
         <div className="mb-2 flex items-center gap-2">
-          <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+          <span className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-md">
             <Zap className="size-4" />
           </span>
           <span className="text-base font-semibold">
@@ -44,7 +44,7 @@ export function LoginForm() {
               aria-invalid={!!state.error}
             />
           </div>
-          {state.error && <p className="text-sm text-destructive">{state.error}</p>}
+          {state.error && <p className="text-destructive text-sm">{state.error}</p>}
           <Button type="submit" disabled={pending} className="w-full">
             {pending ? "Signing in…" : "Sign in"}
           </Button>
