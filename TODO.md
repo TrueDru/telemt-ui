@@ -89,4 +89,4 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 - [x] component tests (RTL) for forms (create user, config patch)
 - [x] Dockerfile (Next standalone output) + docker-compose alongside telemt
 - [x] CI: lint + typecheck + test + build
-- [ ] README: setup, env vars, multi-instance config
+- [x] README: setup, env vars, multi-instance config
