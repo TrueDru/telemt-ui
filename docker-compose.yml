@@ -1,0 +1,22 @@
+services:
+  telemt-ui:
+    build: .
+    image: telemt-ui
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    # Uncomment if telemt itself runs as a container on this compose
+    # project — then TELEMT_<ID>_BASE_URL in .env can use the service
+    # name (e.g. http://telemt:9091) instead of an IP/hostname.
+    # depends_on:
+    #   - telemt
+
+  # telemt:
+  #   image: ghcr.io/example/telemt:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - "443:443"
+  #   volumes:
+  #     - ./telemt-config:/etc/telemt
