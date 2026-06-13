@@ -72,8 +72,8 @@ Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
 
 ## 7. Security page
 
-- [ ] posture flags card
-- [ ] whitelist CIDR list
+- [x] posture flags card
+- [x] whitelist CIDR list
 
 ## 8. Fingerprints
 

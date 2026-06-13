@@ -17,6 +17,7 @@ import {
   runtimeNatStunDataSchema,
   runtimeUpstreamQualityDataSchema,
 } from "./schemas/runtime";
+import { securityPostureDataSchema, securityWhitelistDataSchema } from "./schemas/security";
 import {
   configDataSchema,
   patchConfigResponseSchema,
@@ -138,6 +139,10 @@ export const telemt = {
     telemtRequest(instanceId, "/v1/runtime/me-selftest", runtimeMeSelftestDataSchema),
   statsMinimalAll: (instanceId: string) =>
     telemtRequest(instanceId, "/v1/stats/minimal/all", minimalAllDataSchema),
+  securityPosture: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/security/posture", securityPostureDataSchema),
+  securityWhitelist: (instanceId: string) =>
+    telemtRequest(instanceId, "/v1/security/whitelist", securityWhitelistDataSchema),
 
   config: {
     get: (instanceId: string) => telemtRequest(instanceId, "/v1/config", configDataSchema),
