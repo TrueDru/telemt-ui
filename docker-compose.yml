@@ -1,25 +1,35 @@
 services:
-  telemt-ui:
-    build: .
-    image: telemt-ui
+  telemt:
+    image: ghcr.io/telemt/telemt:latest
+    container_name: telemt
     restart: unless-stopped
     ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    # Uncomment if telemt itself runs as a container on this compose
-    # project — then TELEMT_<ID>_BASE_URL in .env can use the service
-    # name (e.g. http://telemt:9091) instead of an IP/hostname.
-    # depends_on:
-    #   - telemt
+      - "443:443"
+    working_dir: /run/telemt
+    command: ["/etc/telemt/config.toml"]
+    volumes:
+      - ./telemt-config:/etc/telemt:rw
+    tmpfs:
+      - /run/telemt:rw,mode=1777,size=4m
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
 
-  # telemt:
-  #   image: ghcr.io/telemt/telemt:latest
-  #   restart: unless-stopped
-  #   ports:
-  #     - "443:443"
-  #   volumes:
-  #     - ./telemt-config:/etc/telemt
-  #   # ./telemt-config/config.toml needs [server.api] enabled = true,
-  #   # auth_header = "Bearer <token>" (matching TELEMT_<ID>_AUTH_HEADER
-  #   # in .env), and a whitelist covering this compose network.
+  telemt-py-ui:
+    build: .
+    image: telemt-py-ui
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - TELEMT_API_URL=http://telemt:9091
+      # - TELEMT_AUTH_HEADER=Bearer change-me  # match auth_header in telemt-config/config.toml
+      - TELEMT_UI_CONFIG=/app/data/settings.json
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - telemt

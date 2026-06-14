@@ -1,92 +1,36 @@
-# TODO
+# TODO — telemt Control API coverage
 
-Tracking doc for telemt-ui build. See `PLAN.md` for stack rationale and
-`DESIGN_PROMPT.md` for the design pass.
+telemt's Control API has way more endpoints than this UI uses. Tracking
+what's wired up vs. what's not, so it's clear what could be added if needed.
 
-## 0. Scaffolding
+## Implemented
 
-- [x] `create-next-app` (TS, App Router, Tailwind, ESLint)
-- [x] shadcn/ui init + base components (Button, Card, Table, Tabs, Dialog,
-      Sheet, Badge, Progress, Toast, Input, Switch)
-- [x] Prettier + ESLint config, `.editorconfig`
-- [x] Env schema (`zod`-validated) for `APP_PASSWORD`,
-      `TELEMT_<ID>_BASE_URL`, `TELEMT_<ID>_AUTH_HEADER`
+| Method | Path |
+| --- | --- |
+| `GET` | `/v1/users` |
+| `POST` | `/v1/users` |
+| `POST` | `/v1/users/{username}/enable` |
+| `POST` | `/v1/users/{username}/disable` |
+| `POST` | `/v1/users/{username}/rotate-secret` |
+| `POST` | `/v1/users/{username}/reset-quota` |
+| `DELETE` | `/v1/users/{username}` |
 
-## 1. API layer
+## Not implemented
 
-- [x] zod schemas for response contracts in API.md (start with: Health,
-      SystemInfo, RuntimeGates, Summary, UserInfo, ConfigData,
-      PatchConfigResponse)
-- [x] zod schemas for request contracts (CreateUserRequest,
-      PatchUserRequest, PatchConfigRequest, RotateSecretRequest) — enforce
-      32-hex secrets, username regex, etc.
-- [x] typed client (`lib/telemt/client.ts`): wraps fetch, injects
-      `Authorization`, handles envelope (`ok`/`error`/`revision`),
-      surfaces `request_id` on error
-- [x] Next route handlers `app/api/telemt/[...path]/route.ts` — proxy +
-      multi-instance lookup by `?instance=`
-- [x] error-code -> UI message map (table from API.md "Common Error Codes")
+User management:
+| Method | Path | Notes |
+| --- | --- | --- |
+| `GET` | `/v1/users/{username}` | single-user detail; list page covers this for now |
+| `PATCH` | `/v1/users/{username}` | edit quota/limits/expiration/tags after creation — no edit UI yet, only create/enable/disable/delete |
 
-## 2. Auth & shell
-
-- [x] login page + signed-cookie session gate (shared `APP_PASSWORD`)
-- [x] app shell: sidebar nav, instance switcher, health dot per nav item
-- [x] dark/light theme toggle
-
-## 3. Dashboard page
-
-- [x] stat cards: uptime, connections_total, configured_users, read_only,
-      route_mode
-- [x] gates panel (admission/ME readiness/reroute chips)
-- [x] recent-events ticker (`/v1/runtime/events/recent`, degrade gracefully
-      if `runtime_edge_enabled=false`)
-
-## 4. Users page
-
-- [x] users table (`GET /v1/users`) with sort/search
-- [x] row actions: enable, disable, reset-quota, rotate-secret, delete
-      (with confirm dialogs; `last_user_forbidden` handling on delete)
-- [x] create-user dialog (`POST /v1/users`)
-- [x] user detail drawer: limits edit form (`PATCH /v1/users/{username}`,
-      JSON-merge-patch null-to-clear semantics)
-- [x] links section: `tg://proxy` buttons + QR codes for classic/secure/tls + `tls_domains`
-
-## 5. Config page
-
-- [x] fetch `GET /v1/config`, store `revision`
-- [x] section forms: general, timeouts, censorship, upstreams, show_link,
-      dc_overrides
-- [x] dirty-state diff + save bar, `If-Match` on PATCH,
-      `409 revision_conflict` -> refetch+retry prompt
-- [x] `restart_required` banner/notice after save
-
-## 6. Runtime/diagnostics page
-
-- [x] ME pool state tab (generations, hardswap, writer contour/health)
-- [x] ME quality tab (counters, route drops, per-DC RTT/coverage)
-- [x] upstream quality tab (policy, counters, per-upstream table)
-- [x] NAT/STUN tab
-- [x] ME self-test tab (KDF, time-skew, IP, PID, BND)
-- [x] DC status table + ME writers table (minimal/all)
-- [x] shared "feature disabled / source unavailable" empty-state component
-
-## 7. Security page
-
-- [x] posture flags card
-- [x] whitelist CIDR list
-
-## 8. Fingerprints
-
-- [x] JA3/JA4 leaderboard tabs (by-fingerprint/IP/CIDR/user) with
-      `limit` query control
-
-## 9. Polish & ops
-
-- [x] global toast/error handling wired to error envelope
-- [x] loading/empty/error states for every panel
-- [x] responsive layout pass (mobile sidebar)
-- [x] unit tests for API client + zod schemas (vitest)
-- [x] component tests (RTL) for forms (create user, config patch)
-- [x] Dockerfile (Next standalone output) + docker-compose alongside telemt
-- [x] CI: lint + typecheck + test + build
-- [x] README: setup, env vars, multi-instance config
+Everything else (not user-management, probably out of scope for this UI):
+| Method | Path |
+| --- | --- |
+| `GET` | `/v1/health`, `/v1/health/ready` |
+| `GET` | `/v1/system/info` |
+| `GET` | `/v1/config`, `PATCH /v1/config` |
+| `GET` | `/v1/limits/effective` |
+| `GET` | `/v1/security/posture`, `/v1/security/whitelist` |
+| `GET` | `/v1/stats/summary`, `/v1/stats/zero/all`, `/v1/stats/upstreams`, `/v1/stats/minimal/all`, `/v1/stats/me-writers`, `/v1/stats/dcs` |
+| `GET` | `/v1/stats/users`, `/v1/stats/users/active-ips` |
+| `GET` | `/v1/runtime/*` (gates, initialization, me_pool_state, me_quality, upstream_quality, nat_stun, me-selftest, connections/summary, events/recent, tls-fingerprints) |
