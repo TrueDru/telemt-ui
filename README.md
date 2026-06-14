@@ -88,8 +88,17 @@ block per telemt instance to manage — at least one is required.
 
 ## Docker
 
+Pull the published image — built and pushed by CI on every push to `main`:
+
 ```bash
 cp .env.example .env   # fill in real values
+docker run -d --name telemt-ui -p 3000:3000 --env-file .env \
+  ghcr.io/truedru/telemt-ui:latest
+```
+
+Or build locally instead:
+
+```bash
 docker compose up -d --build
 ```
 
