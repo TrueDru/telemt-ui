@@ -1,10 +1,16 @@
 # telemt-ui
 
-A web control panel for telemt MTProto proxy instances, built on the
-Control API described in `API.md`. Next.js App Router BFF that proxies the
-Control API server-side (so instance tokens never reach the browser), with
-a password-gated UI for managing users, config, and runtime diagnostics
-across one or more telemt deployments.
+A web control panel for [telemt](https://github.com/telemt/telemt) MTProto
+proxy instances, built on telemt's Control API (see
+[API.md](https://github.com/telemt/telemt/blob/main/docs/Architecture/API/API.md)).
+Next.js App Router BFF that proxies the Control API server-side (so instance
+tokens never reach the browser), with a password-gated UI for managing
+users, config, and runtime diagnostics across one or more telemt
+deployments.
+
+telemt-ui does not run telemt itself — see
+[Prerequisites](#prerequisites) to set up a telemt instance with its
+Control API exposed first.
 
 ## Features
 
@@ -22,6 +28,25 @@ across one or more telemt deployments.
 - **Security** — posture flags and IP whitelist.
 - **Fingerprints** — JA3/JA4 TLS leaderboards by fingerprint/IP/CIDR/user.
 - Multi-instance: switch between several telemt deployments from one UI.
+
+## Prerequisites
+
+Each instance you manage needs a running
+[telemt](https://github.com/telemt/telemt) server with its Control API
+enabled and reachable from wherever telemt-ui runs:
+
+```toml
+[server.api]
+enabled = true
+listen = "0.0.0.0:9091"        # or 127.0.0.1:9091 if telemt-ui runs on the same host
+auth_header = "Bearer <token>"  # required — an empty string disables auth checks
+whitelist = ["10.0.0.0/8"]       # must include the address telemt-ui connects from
+```
+
+`auth_header` and `whitelist` are documented in telemt's
+[config reference](https://github.com/telemt/telemt/blob/main/docs/Config_params/CONFIG_PARAMS.en.md#auth_header).
+The `<token>` chosen here is what you'll put in `TELEMT_<ID>_AUTH_HEADER`
+below.
 
 ## Getting started
 

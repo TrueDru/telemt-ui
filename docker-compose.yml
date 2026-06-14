@@ -14,9 +14,12 @@ services:
     #   - telemt
 
   # telemt:
-  #   image: ghcr.io/example/telemt:latest
+  #   image: ghcr.io/telemt/telemt:latest
   #   restart: unless-stopped
   #   ports:
   #     - "443:443"
   #   volumes:
   #     - ./telemt-config:/etc/telemt
+  #   # ./telemt-config/config.toml needs [server.api] enabled = true,
+  #   # auth_header = "Bearer <token>" (matching TELEMT_<ID>_AUTH_HEADER
+  #   # in .env), and a whitelist covering this compose network.
