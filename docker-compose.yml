@@ -19,9 +19,9 @@ services:
     security_opt:
       - no-new-privileges:true
 
-  telemt-py-ui:
+  telemt-ui:
     build: .
-    image: telemt-py-ui
+    image: ghcr.io/truedru/telemt-ui:latest
     restart: unless-stopped
     ports:
       - "5000:5000"

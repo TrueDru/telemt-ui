@@ -1,4 +1,4 @@
-# telemt-py-ui
+# telemt-ui
 
 Minimal web UI for managing telemt users via its Control API. One file,
 no auth, no build step.
@@ -25,7 +25,7 @@ listen = "127.0.0.1:9091"
 
 ## Deploy with docker compose
 
-This repo includes `docker-compose.yml` + `Dockerfile` for telemt-py-ui, and
+This repo includes `docker-compose.yml` + `Dockerfile` for telemt-ui, and
 an example `telemt-config/config.toml` for telemt itself:
 
 ```bash
@@ -35,7 +35,7 @@ docker compose up -d --build
 This starts:
 - `telemt`, exposing `443` to the host, Control API on `0.0.0.0:9091`
   (internal to the compose network only — not published to the host)
-- `telemt-py-ui` on `0.0.0.0:5000`, reachable from your LAN
+- `telemt-ui` on `0.0.0.0:5000`, reachable from your LAN
   (e.g. `http://192.168.3.x:5000`), talking to telemt via
   `http://telemt:9091`
 

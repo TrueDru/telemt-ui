@@ -17,12 +17,12 @@ port = 443
 
 [server.api]
 enabled = true
-# 0.0.0.0 so the telemt-py-ui container can reach it via the "telemt"
+# 0.0.0.0 so the telemt-ui container can reach it via the "telemt"
 # service name. Not published to the host (no ports: entry for 9091),
 # so it's only reachable from other containers on this compose network.
 listen = "0.0.0.0:9091"
 whitelist = ["0.0.0.0/0", "::/0"]
-# Uncomment and set the same value in telemt-py-ui's TELEMT_AUTH_HEADER
+# Uncomment and set the same value in telemt-ui's TELEMT_AUTH_HEADER
 # for an extra layer of auth on top of network isolation.
 # auth_header = "Bearer change-me"
 minimal_runtime_enabled = false
