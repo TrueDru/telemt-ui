@@ -326,8 +326,9 @@ recent: {{ u.recent_unique_ips_list|join(', ') if u.recent_unique_ips_list else 
                  value="{{ '%g'|format(u.rate_limit_down_bps / 1000000) if u.rate_limit_down_bps else '' }}"></div>
             <div><label>Expires</label><input name="expires" type="date" value="{{ u.expiration_rfc3339[:10] if u.expiration_rfc3339 else '' }}"></div>
             <div><label>Ad tag</label><input name="user_ad_tag" pattern="[0-9a-fA-F]{32}" maxlength="32" value="{{ u.user_ad_tag or '' }}"></div>
+            <div><label>New secret</label><input name="secret" pattern="[0-9a-fA-F]{32}" maxlength="32" placeholder="blank = keep"></div>
             <div><button type="submit" class="btn-primary">Save</button></div>
-            <p class="hint">Blank field clears that override.</p>
+            <p class="hint">Blank field clears that override. Secret: blank keeps current.</p>
           </form>
         </details>
         </div>
@@ -344,6 +345,7 @@ recent: {{ u.recent_unique_ips_list|join(', ') if u.recent_unique_ips_list else 
     <div class="card-title">Create user</div>
     <form class="create-form" method="post" action="{{ url_for('create_user') }}">
       <div><label>Username</label><input name="username" required pattern="[A-Za-z0-9_.\\-]+" maxlength="64"></div>
+      <div><label>Secret</label><input name="secret" pattern="[0-9a-fA-F]{32}" maxlength="32" placeholder="auto-generated"></div>
       <div><label>Quota (GB)</label><input name="quota_gb" type="number" step="0.1" min="0"></div>
       <div><label>Max conns</label><input name="max_tcp_conns" type="number" min="1"></div>
       <div><label>Expires</label><input name="expires" type="date"></div>
@@ -433,6 +435,10 @@ def create_user():
     username = request.form["username"].strip()
     body = {"username": username}
 
+    secret = request.form.get("secret", "").strip()
+    if secret:
+        body["secret"] = secret
+
     quota_gb = request.form.get("quota_gb", "").strip()
     if quota_gb:
         body["data_quota_bytes"] = int(float(quota_gb) * 1024**3)
@@ -507,6 +513,10 @@ def edit_user(username):
     ad_tag = request.form.get("user_ad_tag", "").strip()
     body["user_ad_tag"] = ad_tag or None
 
+    secret = request.form.get("secret", "").strip()
+    if secret:
+        body["secret"] = secret
+
     _, err = api("PATCH", f"/v1/users/{username}", body)
     if err:
         flash(f"Couldn't update {username}: {err}", "error")
@@ -517,7 +527,11 @@ def edit_user(username):
 
 @app.route("/users/<username>/rotate-secret", methods=["POST"])
 def rotate(username):
-    data, err = api("POST", f"/v1/users/{username}/rotate-secret", {})
+    body = {}
+    secret = request.form.get("secret", "").strip()
+    if secret:
+        body["secret"] = secret
+    data, err = api("POST", f"/v1/users/{username}/rotate-secret", body)
     if err:
         flash(f"Couldn't rotate secret for {username}: {err}", "error")
     else:
