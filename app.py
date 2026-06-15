@@ -206,7 +206,9 @@ PAGE = """
     .ok-dot, .bad-dot { display: inline-block; width: 0.55em; height: 0.55em; border-radius: 50%; }
     .ok-dot { background: var(--ok); box-shadow: 0 0 0 3px rgba(22,163,74,0.15); }
     .bad-dot { background: var(--danger); box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
-    code { font-size: 0.8rem; word-break: break-all; }
+    code { font-size: 0.8rem; }
+    td code:not(.link) { white-space: nowrap; }
+    tbody td:nth-child(4) { white-space: nowrap; }
     code.link {
       display: inline-block; cursor: pointer; max-width: 220px; overflow: hidden;
       text-overflow: ellipsis; white-space: nowrap; word-break: normal; vertical-align: middle;
