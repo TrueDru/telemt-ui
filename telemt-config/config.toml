@@ -1,0 +1,43 @@
+### Telemt config for use with docker-compose.yml in this repo.
+# See https://github.com/telemt/telemt for full reference.
+
+[general]
+use_middle_proxy = true
+
+[general.modes]
+classic = false
+secure = false
+tls = true
+
+[general.links]
+show = "*"
+
+[server]
+port = 443
+
+[server.api]
+enabled = true
+# 0.0.0.0 so the telemt-ui container can reach it via the "telemt"
+# service name. Not published to the host (no ports: entry for 9091),
+# so it's only reachable from other containers on this compose network.
+listen = "0.0.0.0:9091"
+whitelist = ["0.0.0.0/0", "::/0"]
+# Uncomment and set the same value in the UI's "Authorization header"
+# setting for an extra layer of auth on top of network isolation.
+# auth_header = "Bearer change-me"
+minimal_runtime_enabled = false
+minimal_runtime_cache_ttl_ms = 1000
+
+[[server.listeners]]
+ip = "0.0.0.0"
+
+[censorship]
+tls_domain = "petrovich.ru"
+mask = true
+tls_emulation = true
+tls_front_dir = "tlsfront"
+
+[access.users]
+hello = "a8ab324570ea19d29688a99cbb23cf7e"
+[access.user_enabled]
+hello = false

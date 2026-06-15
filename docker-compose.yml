@@ -1,0 +1,36 @@
+services:
+  telemt:
+    image: ghcr.io/telemt/telemt:latest
+    container_name: telemt
+    restart: unless-stopped
+    ports:
+      - "443:443"
+    working_dir: /run/telemt
+    command: ["/etc/telemt/config.toml"]
+    volumes:
+      - ./telemt-config:/etc/telemt:rw
+    tmpfs:
+      - /run/telemt:rw,mode=1777,size=4m
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+
+  telemt-ui:
+    build: .
+    image: ghcr.io/truedru/telemt-ui:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./data:/app/data
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - telemt
