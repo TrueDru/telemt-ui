@@ -49,6 +49,12 @@ ssh -L 5000:localhost:5000 user@your-vds
 
 Then open `http://localhost:5000`.
 
+## Credits
+
+Built to manage [telemt](https://github.com/telemt/telemt), a high-performance MTProto proxy.
+telemt is copyright its authors and distributed under the
+[TELEMT License 3.3](https://github.com/telemt/telemt/blob/main/LICENSE).
+
 To expose it on your LAN instead, change the port mapping in
 `docker-compose.yml` to e.g. `5000:5000`.
 
